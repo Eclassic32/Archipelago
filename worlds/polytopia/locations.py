@@ -43,13 +43,15 @@ def generate_tribe_score_locations() -> dict[str, int]:
 
     return result
 
-LOCATION_NAME_TO_ID = {
+location_table = {
     **generate_tribe_victory_locations(),
     **generate_tribe_score_locations()
 }
 
+LOCATION_NAME_TO_ID: dict[int, str] = {id: location_name for location_name, id in location_table.items()}
+
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
-    return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
+    return {location_name: location_table[location_name] for location_name in location_names}
 
 def create_regular_locations(world: PolytopiaWorld) -> None:
     o = world.options
