@@ -35,7 +35,7 @@ class RequiredUniqueTribesWins(Range):
     min = 1, max = 16, default = 4
     """
 
-    display_name = "Match Wins required for Victory "
+    display_name = "Unique Tribe Wins required for Victory "
     range_start = 1
     range_end = TRIBE_NAMES.__len__()
     default = 4
@@ -51,7 +51,7 @@ class RequiredScoreForVictory(NamedRange):
     min = 1, max = 100, default = 50
     """
 
-    display_name = "Score required for Victory (*1000)"
+    display_name = "Score required for Tribe Victory (*1000)"
     range_start = 1
     range_end = MAX_SCORE_K
     default = 50

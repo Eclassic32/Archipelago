@@ -7,7 +7,7 @@ SPECIAL_TRIBE_NAMES =  ["Aquarion", "Elyrion",  "Polaris",  "Cymanti"]
 TRIBE_NAMES =  REGULAR_TRIBE_NAMES + SPECIAL_TRIBE_NAMES
 
 # Score Options
-MAX_SCORE_K = 100
+MAX_SCORE_K = 100 # Absolute max is 900
 
 STAR_NAME_TO_SCORE = {
     "1_Star": 10,
