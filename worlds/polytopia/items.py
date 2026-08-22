@@ -49,8 +49,14 @@ def create_item_with_correct_classification(world: "PolytopiaWorld", name: str) 
 def create_all_items(world: "PolytopiaWorld") -> None:
     op = world.options
     item_pool = []
-    item_pool.extend(world.create_item(item) for item in item_table)
-    world.push_precollected(item_pool[op.first_unlocked_tribe.value])
+    for tribe in TRIBE_NAMES:
+        if tribe not in op.playable_tribes.value:
+            continue
+        if op.first_unlocked_tribe.value == TRIBE_NAMES.index(tribe):
+            world.push_precollected(world.create_item(f"Tribe Unlock - {tribe}"))
+            continue
+        item_pool.append(world.create_item(f"Tribe Unlock - {tribe}"))
+
 
     # length of current itempool
     number_of_items = len(item_pool)
