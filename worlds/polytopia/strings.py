@@ -1,7 +1,7 @@
-REGULAR_TRIBE_NAMES =  {"Xinxi",    "Imperius", "Bardur",   "Oumaji",
+REGULAR_TRIBE_NAMES =  ["Xinxi",    "Imperius", "Bardur",   "Oumaji",
                         "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
-                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk"}
+                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk"]
 
-SPECIAL_TRIBE_NAMES =  {"Aquarion", "Elyrion",  "Polaris",  "Cymanti"}
+SPECIAL_TRIBE_NAMES =  ["Aquarion", "Elyrion",  "Polaris",  "Cymanti"]
 
-TRIBE_NAMES =  REGULAR_TRIBE_NAMES.union(SPECIAL_TRIBE_NAMES)
+TRIBE_NAMES =  REGULAR_TRIBE_NAMES + SPECIAL_TRIBE_NAMES
