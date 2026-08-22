@@ -1,0 +1,27 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from rule_builder.rules import Has
+
+# from .options import *
+
+if TYPE_CHECKING:
+    from . import PolytopiaWorld
+
+def set_all_rules(world: PolytopiaWorld) -> None:
+    # set_all_location_rules(world)
+    set_all_entrance_rules(world)
+
+    # set_goal_rules(world)
+    set_completion_condition(world)
+
+def set_completion_condition(world: PolytopiaWorld) -> None:
+    world.set_completion_rule(Has("Game Goaled"))
+
+def set_all_entrance_rules(world: PolytopiaWorld) -> None:
+    for tribe in world.options.playable_tribes.value:
+        entrance = world.get_entrance(f"Tribe - {tribe}")
+        world.set_rule(entrance, Has(f"Tribe Unlock - {tribe}"))
+
+
