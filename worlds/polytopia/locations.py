@@ -70,8 +70,8 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
 
 
 def create_events(world: PolytopiaWorld) -> None:
-    main_menu = world.get_region("Main Menu")
-    main_menu.add_event("All Tribes Victorious", "Game Goaled",
+    menu = world.get_region("Menu")
+    menu.add_event("All Tribes Victorious", "Game Goaled",
                         location_type=PolytopiaLocation, item_type=items.PolytopiaItem)
 
 def create_all_locations(world: PolytopiaWorld) -> None:

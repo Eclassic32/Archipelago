@@ -1,6 +1,30 @@
-from worlds.AutoWorld import WebWorld, World
+from collections.abc import Mapping
+from typing import Any
 
-from . import options as options
+from BaseClasses import Tutorial
+from Options import OptionError
+from worlds.AutoWorld import WebWorld, World
+from worlds.polytopia.constants import TRIBE_NAMES
+
+from . import items, locations, regions, rules
+from .items import ITEM_NAME_TO_ID
+from .locations import LOCATION_NAME_TO_ID
+from .options import PolytopiaOptions, polytopia_option_groups
+
+
+class PolytopiaWebWorld(WebWorld):
+    game = "The Battle of Polytopia"
+    theme = "grass"
+    setup_en = Tutorial(
+        "Multiworld Setup Guide",
+        "A guide to setting up the Archipelago The Battle of Polytopia randomizer.",
+        "English",
+        "setup_en.md",
+        "setup/en",
+        ["ec32"],
+    )
+    tutorials = [setup_en]
+    option_groups = polytopia_option_groups
 
 
 class PolytopiaWorld(World):
@@ -9,6 +33,51 @@ class PolytopiaWorld(World):
     """
     game = "The Battle of Polytopia"
 
-    options_dataclass = options.PolytopiaOptions
-    options: options.PolytopiaOptions # type: ignore
+    options_dataclass = PolytopiaOptions
+    options: PolytopiaOptions # type: ignore
 
+    location_id_to_name = LOCATION_NAME_TO_ID
+    item_name_to_id = ITEM_NAME_TO_ID
+
+    def create_regions(self) -> None:
+        regions.create_and_connect_regions(self)
+        locations.create_all_locations(self)
+
+    def set_rules(self) -> None:
+        rules.set_all_rules(self)
+
+    def create_items(self) -> None:
+        items.create_all_items(self)
+
+    def create_item(self, name: str) -> items.PolytopiaItem:
+        return items.create_item_with_correct_classification(self, name)
+
+    def get_filler_item_name(self) -> str:
+        return items.get_random_filler_item_name(self)
+
+    def generate_early(self) -> None:
+        o = self.options
+        if o.playable_tribes.value.__len__() < 1:
+            raise OptionError("[The Battle of Polytopia] At least one tribe must be selected to play.")
+
+        if o.playable_tribes.value.__len__() < o.unique_tribes_wins.value:
+            raise OptionError(
+            f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value})"
+            f"cannot exceed the number of playable tribes ({o.unique_tribes_wins.value})."
+            )
+
+        if TRIBE_NAMES[o.first_unlocked_tribe.value] not in o.playable_tribes.value:
+            raise OptionError(
+                f"[The Battle of Polytopia] The first unlocked tribe ({TRIBE_NAMES[o.first_unlocked_tribe.value]}) "
+                f"must be one of the playable tribes ({o.playable_tribes.value})."
+            )
+
+    def fill_slot_data(self) -> Mapping[str, Any]:
+        return {
+            "playable_tribes": self.options.playable_tribes.value,
+            "first_unlocked_tribe": TRIBE_NAMES[self.options.first_unlocked_tribe.value],
+            "unique_tribes_wins": self.options.unique_tribes_wins.value,
+            "score_checks_min": self.options.score_checks_min.value,
+            "score_checks_max": self.options.score_checks_max.value,
+            "score_checks_step": self.options.score_checks_step.value,
+        }
