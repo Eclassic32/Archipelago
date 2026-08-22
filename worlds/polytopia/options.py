@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, DefaultOnToggle, NamedRange, OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle
+from Options import Choice, DefaultOnToggle, NamedRange, OptionGroup, OptionSet, PerGameCommonOptions, Range
 
 from .strings import REGULAR_TRIBE_NAMES, TRIBE_NAMES
 
