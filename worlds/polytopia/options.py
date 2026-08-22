@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionSet, Range, Toggle
+from Options import OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle
 
 from .strings import REGULAR_TRIBE_NAMES, TRIBE_NAMES
 
@@ -18,7 +18,7 @@ class PlayableTribes(OptionSet):
     default = REGULAR_TRIBE_NAMES
 
 # Goal Options
-class RequiredUniqueTribeWins(Range):
+class RequiredUniqueTribesWins(Range):
     """Amount of wins with unique tribes required for a player to goal the game.
 
     min = 1, max = 16, default = 4
@@ -100,3 +100,20 @@ class ShouldSendScoreChecksImmediately(Toggle):
 
     display_name = "Send Score Checks Immediately"
     default = True
+
+polytopia_option_groups = [
+    OptionGroup("Goal Options", [RequiredUniqueTribesWins, RequiredScoreForVictory]),
+    OptionGroup("Playable Tribes", [PlayableTribes]),
+    OptionGroup("Score Check Options", [ScoreChecksMin, ScoreChecksMax,
+                                        ScoreChecksStep, ShouldSendScoreChecksImmediately]),
+]
+
+@dataclass
+class PolytopiaOptions(PerGameCommonOptions):
+    unique_tribes_wins: RequiredUniqueTribesWins
+    score_for_victory: RequiredScoreForVictory
+    playable_tribes: PlayableTribes
+    score_checks_min: ScoreChecksMin
+    score_checks_max: ScoreChecksMax
+    score_checks_step: ScoreChecksStep
+    send_score_checks_immediately: ShouldSendScoreChecksImmediately
