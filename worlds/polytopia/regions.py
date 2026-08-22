@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region
 
-from .strings import TRIBE_NAMES
+from .constants import TRIBE_NAMES
 
 if TYPE_CHECKING:
     from . import PolytopiaWorld

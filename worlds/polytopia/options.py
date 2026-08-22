@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import Choice, DefaultOnToggle, NamedRange, OptionGroup, OptionSet, PerGameCommonOptions, Range
 
-from .strings import REGULAR_TRIBE_NAMES, TRIBE_NAMES
+from .constants import MAX_SCORE_K, REGULAR_TRIBE_NAMES, STAR_NAME_TO_SCORE, TRIBE_NAMES
 
 
 # Playable Tribes
@@ -26,7 +26,7 @@ class FirstUnlockedTribe(Choice):
 
     display_name = "First Unlocked Tribe"
     valid_keys = TRIBE_NAMES
-    default = "Xinxi"
+    default = TRIBE_NAMES[0]
 
 # Goal Options
 class RequiredUniqueTribesWins(Range):
@@ -35,9 +35,9 @@ class RequiredUniqueTribesWins(Range):
     min = 1, max = 16, default = 4
     """
 
-    display_name = "Match Wins required for Victory"
+    display_name = "Match Wins required for Victory "
     range_start = 1
-    range_end = 16
+    range_end = TRIBE_NAMES.__len__()
     default = 4
 
 class RequiredScoreForVictory(NamedRange):
@@ -51,15 +51,11 @@ class RequiredScoreForVictory(NamedRange):
     min = 1, max = 100, default = 50
     """
 
-    display_name = "Score required for Victory"
+    display_name = "Score required for Victory (*1000)"
     range_start = 1
-    range_end = 100
+    range_end = MAX_SCORE_K
     default = 50
-    special_range_names = {  # noqa: RUF012
-        "1_Star": 10,
-        "2_Stars": 25,
-        "3_Stars": 50
-    }
+    special_range_names = STAR_NAME_TO_SCORE
 
 # Score Check Options
 class ScoreChecksMin(NamedRange):
@@ -76,13 +72,9 @@ class ScoreChecksMin(NamedRange):
 
     display_name = "Minimum Score Checks (*1000)"
     range_start = 0
-    range_end = 100
+    range_end = MAX_SCORE_K
     default = 10
-    special_range_names = {  # noqa: RUF012
-        "1_Star": 10,
-        "2_Stars": 25,
-        "3_Stars": 50
-    }
+    special_range_names = STAR_NAME_TO_SCORE
 
 class ScoreChecksMax(NamedRange):
     """Maximum score*1000 for score checks.
@@ -98,13 +90,9 @@ class ScoreChecksMax(NamedRange):
 
     display_name = "Maximum Score Checks (*1000)"
     range_start = 0
-    range_end = 100
+    range_end = MAX_SCORE_K
     default = 50
-    special_range_names = {  # noqa: RUF012
-        "1_Star": 10,
-        "2_Stars": 25,
-        "3_Stars": 50
-    }
+    special_range_names = STAR_NAME_TO_SCORE
 
 class ScoreChecksStep(Range):
     """Step size for score checks. (*1000)
@@ -114,7 +102,7 @@ class ScoreChecksStep(Range):
 
     display_name = "Score Checks Step Size (*1000)"
     range_start = 1
-    range_end = 100
+    range_end = MAX_SCORE_K
     default = 10
 
 class ShouldSendScoreChecksImmediately(DefaultOnToggle):

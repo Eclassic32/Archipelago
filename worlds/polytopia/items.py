@@ -4,7 +4,7 @@ from BaseClasses import Item
 from BaseClasses import ItemClassification as IC  # noqa: N817
 
 # from .options import *
-from .strings import TRIBE_NAMES
+from .constants import TRIBE_NAMES
 
 if TYPE_CHECKING:
     from . import PolytopiaWorld
