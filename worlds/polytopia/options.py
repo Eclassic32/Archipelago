@@ -10,10 +10,11 @@ class PlayableTribes(OptionSet):
     """List of tribes that can be selected for play.
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
-    Possible values:   ["Xinxi",    "Imperius", "Bardur",   "Oumaji",
-                        "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
-                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
-                        "Aquarion", "Elyrion",  "Polaris",  "Cymanti"]
+    Possible values:
+    ["Xinxi",   "Imperius", "Bardur",   "Oumaji",
+    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
+    "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
+    "Aquarion", "Elyrion",  "Polaris",  "Cymanti"]
     """
 
     display_name = "Playable Tribes"
@@ -24,30 +25,30 @@ class FirstUnlockedTribe(Choice):
     """The first tribe that will be unlocked for the player.
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
-    Possible values:    "Xinxi",    "Imperius", "Bardur",   "Oumaji",
-                        "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
-                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
-                        "Aquarion", "Elyrion",  "Polaris",  "Cymanti"
+    Possible values:
+    "Xinxi",    "Imperius", "Bardur",   "Oumaji",
+    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
+    "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
+    "Aquarion", "Elyrion",  "Polaris",  "Cymanti"
     """
 
     display_name = "First Unlocked Tribe"
-    option_Xinxi = 1     # noqa: N815
-    option_Imperius = 2  # noqa: N815
-    option_Bardur = 3    # noqa: N815
-    option_Oumaji = 4    # noqa: N815
-    option_Kickoo = 5    # noqa: N815
-    option_Hoodrick = 6  # noqa: N815
-    option_Luxidoor = 7  # noqa: N815
-    option_Vengir = 8    # noqa: N815
-    option_Zebasi = 9    # noqa: N815
-    option_Aimo = 10     # noqa: N815
-    option_Quetzali = 11 # noqa: N815
-    option_Yadakk = 12   # noqa: N815
-    option_Aquarion = 13 # noqa: N815
-    option_Elyrion = 14  # noqa: N815
-    option_Polaris = 15  # noqa: N815
-    option_Cymanti = 16  # noqa: N815
-    default = 1
+    option_Xinxi    = 0  # noqa: N815
+    option_Imperius = 1  # noqa: N815
+    option_Bardur   = 2  # noqa: N815
+    option_Oumaji   = 3  # noqa: N815
+    option_Kickoo   = 4  # noqa: N815
+    option_Hoodrick = 5  # noqa: N815
+    option_Luxidoor = 6  # noqa: N815
+    option_Vengir   = 7  # noqa: N815
+    option_Zebasi   = 8  # noqa: N815
+    option_Aimo     = 9  # noqa: N815
+    option_Quetzali = 10 # noqa: N815
+    option_Yadakk   = 11 # noqa: N815
+    option_Aquarion = 12 # noqa: N815
+    option_Elyrion  = 13 # noqa: N815
+    option_Polaris  = 14 # noqa: N815
+    option_Cymanti  = 15 # noqa: N815
 
 # Goal Options
 class RequiredUniqueTribesWins(Range):

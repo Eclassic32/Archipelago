@@ -57,7 +57,7 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
 def create_regular_locations(world: PolytopiaWorld) -> None:
     o = world.options
     for tribe in o.playable_tribes.value:
-        tribe_index = TRIBE_NAMES.index(tribe)
+        tribe_index = TRIBE_NAMES.index(tribe) + 1
         region = world.get_region(f"Tribe - {tribe}")
 
         victory_location = PolytopiaLocation(world.player, f"{tribe} - Victory",

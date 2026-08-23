@@ -28,7 +28,10 @@ def generate_tribe_unlock_items() -> dict[str, ItemData]:
     return {f"Tribe Unlock - {tribe_name}": ItemData(base_id + index, IC.progression|IC.useful) \
                                             for index, tribe_name in enumerate(TRIBE_NAMES, start=1)}
 
-item_table = generate_tribe_unlock_items()
+item_table = {
+    **generate_tribe_unlock_items(),
+    "Filler": ItemData(base_id + len(TRIBE_NAMES) + 1, IC.filler),
+}
 ITEM_NAME_TO_ID: dict[str, int] = {item_name: data.id for item_name, data in item_table.items()}
 
 def get_random_filler_item_name(world: "PolytopiaWorld") -> str:
