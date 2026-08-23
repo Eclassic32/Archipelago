@@ -26,29 +26,36 @@ class FirstUnlockedTribe(Choice):
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
     Possible values:
-    "Xinxi",    "Imperius", "Bardur",   "Oumaji",
-    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
-    "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
-    "Aquarion", "Elyrion",  "Polaris",  "Cymanti"
+    "Xinxi",    "Imperius", "Bardur",   "Oumaji", - included in any_free, any_regular, any
+    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir", - included in any_regular, any
+    "Zebasi",   "Aimo",     "Quetzali", "Yadakk", - included in any_regular, any
+    "Aquarion", "Elyrion",  "Polaris",  "Cymanti" - included in any_special, any
     """
 
     display_name = "First Unlocked Tribe"
-    option_Xinxi    = 0  # noqa: N815
-    option_Imperius = 1  # noqa: N815
-    option_Bardur   = 2  # noqa: N815
-    option_Oumaji   = 3  # noqa: N815
-    option_Kickoo   = 4  # noqa: N815
-    option_Hoodrick = 5  # noqa: N815
-    option_Luxidoor = 6  # noqa: N815
-    option_Vengir   = 7  # noqa: N815
-    option_Zebasi   = 8  # noqa: N815
-    option_Aimo     = 9  # noqa: N815
-    option_Quetzali = 10 # noqa: N815
-    option_Yadakk   = 11 # noqa: N815
-    option_Aquarion = 12 # noqa: N815
-    option_Elyrion  = 13 # noqa: N815
-    option_Polaris  = 14 # noqa: N815
-    option_Cymanti  = 15 # noqa: N815
+    option_any_free = -1
+    option_any_regular = -2
+    option_any_special = -3
+    option_any = -4
+
+    option_xinxi    = 0
+    option_imperius = 1
+    option_bardur   = 2
+    option_oumaji   = 3
+    option_kickoo   = 4
+    option_hoodrick = 5
+    option_luxidoor = 6
+    option_vengir   = 7
+    option_zebasi   = 8
+    option_aimo     = 9
+    option_quetzali = 10
+    option_yadakk   = 11
+    option_aquarion = 12
+    option_elyrion  = 13
+    option_polaris  = 14
+    option_cymanti  = 15
+
+    default = option_any_free
 
 # Goal Options
 class RequiredUniqueTribesWins(Range):
