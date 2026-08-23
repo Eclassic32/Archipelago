@@ -48,7 +48,8 @@ location_table = {
     **generate_tribe_score_locations()
 }
 
-LOCATION_NAME_TO_ID: dict[int, str] = {id: location_name for location_name, id in location_table.items()}
+LOCATION_ID_TO_NAME: dict[int, str] = {id: location_name for location_name, id in location_table.items()}
+LOCATION_NAME_TO_ID: dict[str, int] = dict(location_table.items())
 
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: location_table[location_name] for location_name in location_names}

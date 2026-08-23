@@ -8,7 +8,7 @@ from worlds.polytopia.constants import TRIBE_NAMES
 
 from . import items, locations, regions, rules
 from .items import ITEM_NAME_TO_ID
-from .locations import LOCATION_NAME_TO_ID
+from .locations import LOCATION_ID_TO_NAME, LOCATION_NAME_TO_ID
 from .options import PolytopiaOptions, polytopia_option_groups
 
 
@@ -36,7 +36,8 @@ class PolytopiaWorld(World):
     options_dataclass = PolytopiaOptions
     options: PolytopiaOptions # type: ignore
 
-    location_id_to_name = LOCATION_NAME_TO_ID
+    location_id_to_name = LOCATION_ID_TO_NAME
+    location_name_to_id = LOCATION_NAME_TO_ID
     item_name_to_id = ITEM_NAME_TO_ID
 
     def create_regions(self) -> None:
