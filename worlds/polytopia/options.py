@@ -10,7 +10,10 @@ class PlayableTribes(OptionSet):
     """List of tribes that can be selected for play.
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
-    Possible values: {TRIBE_NAMES}
+    Possible values:   ["Xinxi",    "Imperius", "Bardur",   "Oumaji",
+                        "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
+                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
+                        "Aquarion", "Elyrion",  "Polaris",  "Cymanti"]
     """
 
     display_name = "Playable Tribes"
@@ -21,23 +24,40 @@ class FirstUnlockedTribe(Choice):
     """The first tribe that will be unlocked for the player.
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
-    Possible values: {TRIBE_NAMES}
+    Possible values:    "Xinxi",    "Imperius", "Bardur",   "Oumaji",
+                        "Kickoo",   "Hoodrick", "Luxidoor", "Vengir",
+                        "Zebasi",   "Aimo",     "Quetzali", "Yadakk",
+                        "Aquarion", "Elyrion",  "Polaris",  "Cymanti"
     """
 
     display_name = "First Unlocked Tribe"
-    valid_keys = TRIBE_NAMES
-    default = TRIBE_NAMES[0]
+    option_Xinxi = 1     # noqa: N815
+    option_Imperius = 2  # noqa: N815
+    option_Bardur = 3    # noqa: N815
+    option_Oumaji = 4    # noqa: N815
+    option_Kickoo = 5    # noqa: N815
+    option_Hoodrick = 6  # noqa: N815
+    option_Luxidoor = 7  # noqa: N815
+    option_Vengir = 8    # noqa: N815
+    option_Zebasi = 9    # noqa: N815
+    option_Aimo = 10     # noqa: N815
+    option_Quetzali = 11 # noqa: N815
+    option_Yadakk = 12   # noqa: N815
+    option_Aquarion = 13 # noqa: N815
+    option_Elyrion = 14  # noqa: N815
+    option_Polaris = 15  # noqa: N815
+    option_Cymanti = 16  # noqa: N815
+    default = 1
 
 # Goal Options
 class RequiredUniqueTribesWins(Range):
     """Amount of wins with unique tribes required for a player to goal the game.
 
-    min = 1, max = 16, default = 4
     """
 
     display_name = "Unique Tribe Wins required for Victory "
     range_start = 1
-    range_end = TRIBE_NAMES.__len__()
+    range_end = len(TRIBE_NAMES)
     default = 4
 
 class RequiredScoreForVictory(NamedRange):
@@ -48,7 +68,6 @@ class RequiredScoreForVictory(NamedRange):
     2 stars = 25k
     3 stars = 50k
 
-    min = 1, max = 100, default = 50
     """
 
     display_name = "Score required for Tribe Victory (*1000)"
@@ -67,7 +86,6 @@ class ScoreChecksMin(NamedRange):
         2 stars = 25k
         3 stars = 50k
 
-    min = 0, max = 100, default = 10
     """
 
     display_name = "Minimum Score Checks (*1000)"
@@ -85,7 +103,6 @@ class ScoreChecksMax(NamedRange):
         2 stars = 25k
         3 stars = 50k
 
-    min = 0, max = 100, default = 100
     """
 
     display_name = "Maximum Score Checks (*1000)"
@@ -97,7 +114,6 @@ class ScoreChecksMax(NamedRange):
 class ScoreChecksStep(Range):
     """Step size for score checks. (*1000)
 
-    min = 1, max = 100, default = 10
     """
 
     display_name = "Score Checks Step Size (*1000)"

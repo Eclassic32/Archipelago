@@ -10,7 +10,7 @@ TRIBE_NAMES =  REGULAR_TRIBE_NAMES + SPECIAL_TRIBE_NAMES
 MAX_SCORE_K = 100 # Absolute max is 900
 
 STAR_NAME_TO_SCORE = {
-    "1_Star": 10,
-    "2_Stars": 25,
-    "3_Stars": 50
+    "star_1": 10,
+    "stars_2": 25,
+    "stars_3": 50
 }
