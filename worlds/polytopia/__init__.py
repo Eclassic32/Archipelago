@@ -82,9 +82,7 @@ class PolytopiaWorld(World):
     def fill_slot_data(self) -> Mapping[str, Any]:
         return {
             "playable_tribes": self.options.playable_tribes.value,
-            "first_unlocked_tribe": TRIBE_NAMES[self.options.first_unlocked_tribe.value],
             "unique_tribes_wins": self.options.unique_tribes_wins.value,
-            "score_checks_min": self.options.score_checks_min.value,
-            "score_checks_max": self.options.score_checks_max.value,
-            "score_checks_step": self.options.score_checks_step.value,
+            "score_to_victory": self.options.score_for_victory.value,
+            "send_score_checks_immediately": self.options.send_score_checks_immediately.value,
         }
