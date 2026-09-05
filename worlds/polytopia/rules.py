@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from . import PolytopiaWorld
 
 def set_all_rules(world: PolytopiaWorld) -> None:
-    # set_all_location_rules(world)
+    set_all_location_rules(world)
     set_all_entrance_rules(world)
 
     # set_goal_rules(world)
@@ -24,4 +24,12 @@ def set_all_entrance_rules(world: PolytopiaWorld) -> None:
         entrance = world.get_entrance(f"Tribe - {tribe}")
         world.set_rule(entrance, Has(f"Tribe Unlock - {tribe}"))
 
-
+def set_all_location_rules(world: PolytopiaWorld) -> None:
+    o = world.options
+    for tribe in world.options.playable_tribes.value:
+        item = f"Tribe Unlock - {tribe}"
+        victory_loc = world.get_location(f"{tribe} - Victory")
+        world.set_rule(victory_loc, Has(item))
+        for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
+            location = world.get_location(f"{tribe} - Score {score}K")
+            world.set_rule(location, Has(item))
