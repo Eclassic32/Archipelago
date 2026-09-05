@@ -26,17 +26,18 @@ class FirstUnlockedTribe(Choice):
     Notice: Client mod does NOT let you select tribes that you do not own in main game.
 
     Possible values:
-    "Xinxi",    "Imperius", "Bardur",   "Oumaji", - included in any_free, any_regular, any
-    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir", - included in any_regular, any
-    "Zebasi",   "Aimo",     "Quetzali", "Yadakk", - included in any_regular, any
-    "Aquarion", "Elyrion",  "Polaris",  "Cymanti" - included in any_special, any
+    "Xinxi",    "Imperius", "Bardur",   "Oumaji", - included in any_free, any_regular
+    "Kickoo",   "Hoodrick", "Luxidoor", "Vengir", - included in any_regular
+    "Zebasi",   "Aimo",     "Quetzali", "Yadakk", - included in any_regular
+    "Aquarion", "Elyrion",  "Polaris",  "Cymanti" - included in any_special
+    "any_playable" - dynamically includes your playable tribes
     """
 
     display_name = "First Unlocked Tribe"
     option_any_free = -1
     option_any_regular = -2
     option_any_special = -3
-    option_any = -4
+    option_any_playable = -4
 
     option_xinxi    = 0
     option_imperius = 1
@@ -55,7 +56,7 @@ class FirstUnlockedTribe(Choice):
     option_polaris  = 14
     option_cymanti  = 15
 
-    default = option_any_free
+    default = option_any_playable
 
 # Goal Options
 class RequiredUniqueTribesWins(Range):
@@ -81,7 +82,7 @@ class RequiredScoreForVictory(NamedRange):
     display_name = "Score required for Tribe Victory (*1000)"
     range_start = 1
     range_end = MAX_SCORE_K
-    default = 50
+    default = 15
     special_range_names = STAR_NAME_TO_SCORE
 
 # Score Check Options
@@ -99,7 +100,7 @@ class ScoreChecksMin(NamedRange):
     display_name = "Minimum Score Checks (*1000)"
     range_start = 0
     range_end = MAX_SCORE_K
-    default = 10
+    default = 2
     special_range_names = STAR_NAME_TO_SCORE
 
 class ScoreChecksMax(NamedRange):
@@ -116,7 +117,7 @@ class ScoreChecksMax(NamedRange):
     display_name = "Maximum Score Checks (*1000)"
     range_start = 0
     range_end = MAX_SCORE_K
-    default = 50
+    default = 20
     special_range_names = STAR_NAME_TO_SCORE
 
 class ScoreChecksStep(Range):
@@ -127,7 +128,7 @@ class ScoreChecksStep(Range):
     display_name = "Score Checks Step Size (*1000)"
     range_start = 1
     range_end = MAX_SCORE_K
-    default = 10
+    default = 2
 
 class ShouldSendScoreChecksImmediately(DefaultOnToggle):
     """Whether to send score checks immediately or wait until the end of the match.

@@ -59,11 +59,6 @@ class PolytopiaWorld(World):
     def generate_early(self) -> None:
         o = self.options
 
-        if o.first_unlocked_tribe.value in [-4, -3, -2, -1]: # first tribe is randomized
-            choice = o.first_unlocked_tribe.value + 4
-            randoms = [list(range(0, len(TRIBE_NAMES))), list(range(12, 16)), list(range(0, 12)), list(range(0, 4))]
-            o.first_unlocked_tribe.value = randoms[choice][self.random.randint(0, len(randoms[choice]) - 1)]
-
         if o.playable_tribes.value.__len__() < 1:
             raise OptionError("[The Battle of Polytopia] At least one tribe must be selected to play.")
 
@@ -72,6 +67,15 @@ class PolytopiaWorld(World):
             f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value})"
             f"cannot exceed the number of playable tribes ({o.unique_tribes_wins.value})."
             )
+
+        if o.first_unlocked_tribe.value == -4:
+            tribe = TRIBE_NAMES[self.random.randint(0, len(o.playable_tribes.value) - 1)]
+            o.first_unlocked_tribe.value = TRIBE_NAMES.index(tribe)
+
+        if o.first_unlocked_tribe.value in [-3, -2, -1]: # first tribe is randomized
+            choice = o.first_unlocked_tribe.value + 4
+            randoms = [list(range(0, len(TRIBE_NAMES))), list(range(12, 16)), list(range(0, 12)), list(range(0, 4))]
+            o.first_unlocked_tribe.value = randoms[choice][self.random.randint(0, len(randoms[choice]) - 1)]
 
         if TRIBE_NAMES[o.first_unlocked_tribe.value] not in o.playable_tribes.value:
             raise OptionError(
