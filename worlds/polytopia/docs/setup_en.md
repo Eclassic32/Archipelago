@@ -1,12 +1,13 @@
 # Setting up The Battle of Polytopia Archipelago
 
 ## Requirements:
-- Archipelago Launcher
-- Polytopia AP World
+- [Archipelago Launcher](https://archipelago.gg)
+- [Polytopia AP World](https://github.com/Eclassic32/Archipelago/releases?q=Polytopia&expanded=true)
 
-- Copy of The Battle of Polytopia on Steam
-- Polymod
-- Client-side Mod
+- Copy of [The Battle of Polytopia on Steam](https://store.steampowered.com/app/874390)
+- [Polymod](https://polymod.dev/)
+- [Client-side Mod](https://github.com/Eclassic32/polytopia-AP/releases)
+
 > Epic build of the game is not tested, but should work regardless
 
 > Mobile builds are not supported, for a reason of not having Polymod
