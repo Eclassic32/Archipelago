@@ -126,7 +126,7 @@ class ScoreChecksStep(Range):
     """
 
     display_name = "Score Checks Step Size (*1000)"
-    range_start = 1
+    range_start = 0
     range_end = MAX_SCORE_K
     default = 2
 

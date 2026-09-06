@@ -64,6 +64,9 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
                                             tribe_specific_locid(tribe_index, 0), region)
         region.locations.append(victory_location)
 
+        if o.score_checks_min == 0 or o.score_checks_max == 0 or o.score_checks_step == 0:
+            continue
+
         for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
             location = PolytopiaLocation(world.player, f"{tribe} - Score {score}K",
                                          tribe_specific_locid(tribe_index, score), region)
