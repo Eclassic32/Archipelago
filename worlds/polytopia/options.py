@@ -190,8 +190,8 @@ class TechnologyItems(Choice):
     option_enable = 1
     option_on = 1
     option_split_by_tribe = 2
-    option_split_by_action = 3
-    option_split_by_tribe_and_action = 4
+    # option_split_by_action = 3
+    # option_split_by_tribe_and_action = 4
 
     default = option_enable
 
@@ -211,6 +211,7 @@ polytopia_option_groups = [
     OptionGroup("Playable Tribes", [PlayableTribes, FirstUnlockedTribe]),
     OptionGroup("Score Check Options", [ScoreChecksMin, ScoreChecksMax,
                                         ScoreChecksStep, ShouldSendScoreChecksImmediately, ExcludeScoreChecksAfter]),
+    OptionGroup("Technology Randomization Options", [TechnologyLocations, TechnologyItems])
 ]
 
 @dataclass
@@ -224,6 +225,8 @@ class PolytopiaOptions(PerGameCommonOptions):
     score_checks_step: ScoreChecksStep
     send_score_checks_immediately: ShouldSendScoreChecksImmediately
     exclude_score_checks_after: ExcludeScoreChecksAfter
+    technology_locations: TechnologyLocations
+    technology_items: TechnologyItems
 
 
 

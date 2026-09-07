@@ -92,4 +92,6 @@ class PolytopiaWorld(World):
             "unique_tribes_wins": self.options.unique_tribes_wins.value,
             "score_to_victory": self.options.score_for_victory.value,
             "send_score_checks_immediately": self.options.send_score_checks_immediately.value,
+            "technology_locations": self.options.technology_locations.value,
+            "technology_items": self.options.technology_items.value,
         }
