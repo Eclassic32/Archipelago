@@ -154,6 +154,58 @@ class ExcludeScoreChecksAfter(Range):
         "after_victory": 0,
     }
 
+# Technology Randomization Options
+class TechnologyLocations(Choice):
+    """Should technology locations be randomized or not.
+
+    **Disabled** - Technology locations will not be randomized.
+    **Enabled** - Technology locations will be randomized. (Adds 25 Locations)
+    **Split by Tribe** - Each tribe has its own set of technology locations, and the randomization
+                         will be done separately for each tribe. (Adds 25 Locations per tribe)
+    """
+    display_name = "Randomize Technology Locations"
+
+    option_disable = 0
+    option_off = 0
+    option_enable = 1
+    option_on = 1
+    option_split_by_tribe = 2
+
+    default = option_enable
+
+class TechnologyItems(Choice):
+    """Should technology items be randomized or not.
+
+    **Disabled** - Technology items will not be randomized.
+    **Enabled** - Technology items will be randomized. (Adds 25 Items)
+    **Split by Tribe** - Each tribe has its own set of technology items, and the randomization
+                         will be done separately for each tribe. (Adds 25 Items per tribe)
+    **Split by Action** - Technology items are split by the action they are associated with. (Adds XX Items)
+    **Split by Tribe and Action** - Technology items are split by both tribe and action. (Adds XX Items per tribe)
+    """
+    display_name = "Randomize Technology Items"
+
+    option_disable = 0
+    option_off = 0
+    option_enable = 1
+    option_on = 1
+    option_split_by_tribe = 2
+    option_split_by_action = 3
+    option_split_by_tribe_and_action = 4
+
+    default = option_enable
+
+# class RandomizeStartingUnit(Choice):
+#     """Whether to randomize starting unit or not.
+#     Affects only when Technology Items are split by action.
+#     """
+
+#     display_name = "Randomize Starting Unit"
+#     option_disable = 0
+#     option_off = 0
+
+
+
 polytopia_option_groups = [
     OptionGroup("Goal Options", [RequiredUniqueTribesWins, RequiredScoreForVictory]),
     OptionGroup("Playable Tribes", [PlayableTribes, FirstUnlockedTribe]),
