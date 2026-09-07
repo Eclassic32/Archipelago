@@ -59,6 +59,9 @@ class PolytopiaWorld(World):
     def generate_early(self) -> None:
         o = self.options
 
+        if o.exclude_score_checks_after.value == 0:
+            o.exclude_score_checks_after.value = o.score_for_victory.value
+
         if o.playable_tribes.value.__len__() < 1:
             raise OptionError("[The Battle of Polytopia] At least one tribe must be selected to play.")
 

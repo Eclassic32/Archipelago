@@ -86,9 +86,18 @@ class RequiredScoreForVictory(NamedRange):
     special_range_names = STAR_NAME_TO_SCORE
 
 # Score Check Options
+class ShouldSendScoreChecksImmediately(DefaultOnToggle):
+    """Whether to send score checks immediately or wait until the end of the match.
+
+    True - Send score checks immediately
+    False - Wait until the end of the match to send score checks
+    """
+
+    display_name = "Send Score Checks Immediately"
+
 class ScoreChecksMin(NamedRange):
     """Minimum score*1000 for score checks.
-    Setting ScoreChecksMin and ScoreChecksMax to 0 will disable score checks.
+    Setting ScoreChecksMin or ScoreChecksMax to 0 will disable score checks.
 
     Rating in the main game:
         1 star = 10k
@@ -105,7 +114,7 @@ class ScoreChecksMin(NamedRange):
 
 class ScoreChecksMax(NamedRange):
     """Maximum score*1000 for score checks.
-    Setting ScoreChecksMin and ScoreChecksMax to 0 will disable score checks.
+    Setting ScoreChecksMin or ScoreChecksMax to 0 will disable score checks.
 
     Rating in the main game:
         1 star = 10k
@@ -130,20 +139,26 @@ class ScoreChecksStep(Range):
     range_end = MAX_SCORE_K
     default = 2
 
-class ShouldSendScoreChecksImmediately(DefaultOnToggle):
-    """Whether to send score checks immediately or wait until the end of the match.
-
-    True - Send score checks immediately
-    False - Wait until the end of the match to send score checks
+class ExcludeScoreChecksAfter(Range):
+    """Exclude score checks after a certain score (*1000) to not have progressive items.
+    **Disabled** (-1) - allows generation to place progressive items in any score check location.
+    **After Victory** (0) - dynamically excludes score checks after the victory score.
     """
 
-    display_name = "Send Score Checks Immediately"
+    display_name = "Exclude Score Checks After (*1000)"
+    range_start = -1
+    range_end = MAX_SCORE_K
+    default = 0
+    special_range_names = {
+        "disable": -1,
+        "after_victory": 0,
+    }
 
 polytopia_option_groups = [
     OptionGroup("Goal Options", [RequiredUniqueTribesWins, RequiredScoreForVictory]),
     OptionGroup("Playable Tribes", [PlayableTribes, FirstUnlockedTribe]),
     OptionGroup("Score Check Options", [ScoreChecksMin, ScoreChecksMax,
-                                        ScoreChecksStep, ShouldSendScoreChecksImmediately]),
+                                        ScoreChecksStep, ShouldSendScoreChecksImmediately, ExcludeScoreChecksAfter]),
 ]
 
 @dataclass
@@ -156,3 +171,8 @@ class PolytopiaOptions(PerGameCommonOptions):
     score_checks_max: ScoreChecksMax
     score_checks_step: ScoreChecksStep
     send_score_checks_immediately: ShouldSendScoreChecksImmediately
+    exclude_score_checks_after: ExcludeScoreChecksAfter
+
+
+
+

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import Location
+from BaseClasses import Location, LocationProgressType
 
 from . import items
 from .constants import MAX_SCORE_K, TRIBE_NAMES
@@ -70,6 +70,10 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
         for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
             location = PolytopiaLocation(world.player, f"{tribe} - Score {score}K",
                                          tribe_specific_locid(tribe_index, score), region)
+
+            if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
+                location.progress_type = LocationProgressType.EXCLUDED
+
             region.locations.append(location)
 
 
