@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from BaseClasses import LocationProgressType
 from rule_builder.rules import Has
 
 # from .options import *
@@ -30,6 +31,14 @@ def set_all_location_rules(world: PolytopiaWorld) -> None:
         item = f"Tribe Unlock - {tribe}"
         victory_loc = world.get_location(f"{tribe} - Victory")
         world.set_rule(victory_loc, Has(item))
+
+        if o.score_checks_min == 0 or o.score_checks_max == 0 or o.score_checks_step == 0:
+            continue
+
         for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
             location = world.get_location(f"{tribe} - Score {score}K")
+
+            # if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
+            #     location.progress_type = LocationProgressType.EXCLUDED
+
             world.set_rule(location, Has(item))

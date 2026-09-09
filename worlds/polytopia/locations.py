@@ -106,8 +106,8 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
             location = PolytopiaLocation(world.player, f"{tribe} - Score {score}K",
                                          tribe_specific_id(tribe_index, score), region)
 
-            if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
-                location.progress_type = LocationProgressType.EXCLUDED
+            # if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
+            #     location.progress_type = LocationProgressType.EXCLUDED
 
             region.locations.append(location)
 

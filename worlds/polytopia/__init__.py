@@ -4,7 +4,7 @@ from typing import Any
 from BaseClasses import Tutorial
 from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
-from worlds.polytopia.constants import TRIBE_NAMES
+from worlds.polytopia.constants import TRIBE_NAMES, disable_tech_shuffle_for_special_tribes
 
 from . import items, locations, regions, rules
 from .items import ITEM_NAME_TO_ID
@@ -67,8 +67,8 @@ class PolytopiaWorld(World):
 
         if o.playable_tribes.value.__len__() < o.unique_tribes_wins.value:
             raise OptionError(
-            f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value})"
-            f"cannot exceed the number of playable tribes ({o.unique_tribes_wins.value})."
+            f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value}) "
+            f"cannot exceed the number of playable tribes ({o.playable_tribes.value.__len__()})."
             )
 
         if o.first_unlocked_tribe.value == -4:
@@ -84,6 +84,15 @@ class PolytopiaWorld(World):
             raise OptionError(
                 f"[The Battle of Polytopia] The first unlocked tribe ({TRIBE_NAMES[o.first_unlocked_tribe.value]}) "
                 f"must be one of the playable tribes ({o.playable_tribes.value})."
+            )
+
+        if disable_tech_shuffle_for_special_tribes(o.technology_locations.value,
+                                                   o.technology_items.value,
+                                                   o.playable_tribes.value):
+            raise OptionError(
+                "[The Battle of Polytopia] Shuffling of technology locations and items is not tested when "
+                "special tribes are playable, therefore currently it is disabled. Please modify "
+                "[polytopia/constants.py] to enable it if you want to use special tribes."
             )
 
     def fill_slot_data(self) -> Mapping[str, Any]:

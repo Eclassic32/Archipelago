@@ -96,7 +96,7 @@ def create_all_items(world: "PolytopiaWorld") -> None:
             for tribe in TRIBE_NAMES:
                 if tribe not in o.playable_tribes.value:
                     continue
-                item_pool.append(world.create_item(f"Technology Unlock - {tribe} - {tech_name}")
+                item_pool.append(world.create_item(f"{tribe} - Technology Unlock - {tech_name}")
                                                     for tech_name in TECHNOLOGY_NAMES)
 
         # case 3:  # Split by Action

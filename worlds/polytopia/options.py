@@ -139,7 +139,7 @@ class ScoreChecksStep(Range):
     range_end = MAX_SCORE_K
     default = 2
 
-class ExcludeScoreChecksAfter(Range):
+class ExcludeScoreChecksAfter(NamedRange):
     """Exclude score checks after a certain score (*1000) to not have progressive items.
     **Disabled** (-1) - allows generation to place progressive items in any score check location.
     **After Victory** (0) - dynamically excludes score checks after the victory score.
@@ -166,9 +166,9 @@ class TechnologyLocations(Choice):
     display_name = "Randomize Technology Locations"
 
     option_disable = 0
-    option_off = 0
+    alias_off = option_disable
     option_enable = 1
-    option_on = 1
+    alias_on = option_enable
     option_split_by_tribe = 2
 
     default = option_enable
@@ -186,9 +186,9 @@ class TechnologyItems(Choice):
     display_name = "Randomize Technology Items"
 
     option_disable = 0
-    option_off = 0
+    alias_off = option_disable
     option_enable = 1
-    option_on = 1
+    alias_on = option_enable
     option_split_by_tribe = 2
     # option_split_by_action = 3
     # option_split_by_tribe_and_action = 4

@@ -24,5 +24,10 @@ STAR_NAME_TO_SCORE = {
     "stars_3": 50
 }
 
+def disable_tech_shuffle_for_special_tribes(tech_location: int, tech_item: int, playable_tribes: set[str]) -> bool:
+    return False # Uncomment this to enable tech shuffle for special tribes.
+    has_special_tribe = any(tribe in playable_tribes for tribe in SPECIAL_TRIBE_NAMES)
+    return (tech_location != 0 or tech_item != 0) and has_special_tribe
+
 def tribe_specific_id(tribe_index: int, id: int) -> int:
     return tribe_index * 1000 + id
