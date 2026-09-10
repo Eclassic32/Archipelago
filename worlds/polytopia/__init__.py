@@ -67,8 +67,8 @@ class PolytopiaWorld(World):
 
         if o.playable_tribes.value.__len__() < o.unique_tribes_wins.value:
             raise OptionError(
-            f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value}) "
-            f"cannot exceed the number of playable tribes ({o.playable_tribes.value.__len__()})."
+            f"[The Battle of Polytopia] The number of unique tribes required for victory ({o.unique_tribes_wins.value})"
+            f" cannot exceed the number of playable tribes ({o.playable_tribes.value.__len__()})."
             )
 
         if o.first_unlocked_tribe.value == -4:

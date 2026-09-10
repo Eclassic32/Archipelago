@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import Location, LocationProgressType
+from BaseClasses import Location
 
 from . import items
 from .constants import MAX_SCORE_K, TECHNOLOGY_NAMES, TECHNOLOGY_OFFSET, TRIBE_NAMES, tribe_specific_id
@@ -83,7 +83,7 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
     if o.technology_locations.value == 1:
         menu = world.get_region("Menu")
         for tech_id, tech_name in enumerate(TECHNOLOGY_NAMES, start=1):
-            menu.locations.append(PolytopiaLocation(world.player, f"Technology Locations - {tech_name}",
+            menu.locations.append(PolytopiaLocation(world.player, f"Technology - {tech_name}",
                                                     tribe_specific_id(0, tech_id + TECHNOLOGY_OFFSET), menu))
 
     for tribe in o.playable_tribes.value:
@@ -96,8 +96,8 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
 
         if o.technology_locations.value == 2:
             for tech_id, tech_name in enumerate(TECHNOLOGY_NAMES, start=1):
-                region.locations.append(PolytopiaLocation(world.player, f"{tribe} - Technology Locations - {tech_name}",
-                                                          tribe_specific_id(0, tech_id + TECHNOLOGY_OFFSET), region))
+                region.locations.append(PolytopiaLocation(world.player, f"{tribe} - Technology - {tech_name}",
+                                                tribe_specific_id(tribe_index, tech_id + TECHNOLOGY_OFFSET), region))
 
         if o.score_checks_min == 0 or o.score_checks_max == 0 or o.score_checks_step == 0:
             continue
@@ -105,9 +105,6 @@ def create_regular_locations(world: PolytopiaWorld) -> None:
         for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
             location = PolytopiaLocation(world.player, f"{tribe} - Score {score}K",
                                          tribe_specific_id(tribe_index, score), region)
-
-            # if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
-            #     location.progress_type = LocationProgressType.EXCLUDED
 
             region.locations.append(location)
 

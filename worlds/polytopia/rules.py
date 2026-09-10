@@ -38,7 +38,7 @@ def set_all_location_rules(world: PolytopiaWorld) -> None:
         for score in range(o.score_checks_min, o.score_checks_max + 1, o.score_checks_step):
             location = world.get_location(f"{tribe} - Score {score}K")
 
-            # if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
-            #     location.progress_type = LocationProgressType.EXCLUDED
+            if o.exclude_score_checks_after != -1 and score > o.exclude_score_checks_after:
+                location.progress_type = LocationProgressType.EXCLUDED
 
             world.set_rule(location, Has(item))

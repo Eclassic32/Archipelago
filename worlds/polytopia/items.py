@@ -87,21 +87,21 @@ def create_all_items(world: "PolytopiaWorld") -> None:
         item_pool.append(world.create_item(f"Tribe Unlock - {tribe}"))
 
     match o.technology_items.value:
-        case 0:  # No Technology Items
-            pass
         case 1:  # No Split
-            item_pool.append(world.create_item(f"Technology Unlock - {tech_name}") for tech_name in TECHNOLOGY_NAMES)
-
+            item_pool.extend(world.create_item(f"Technology Unlock - {tech_name}") for tech_name in TECHNOLOGY_NAMES)
         case 2:  # Split by Tribe
             for tribe in TRIBE_NAMES:
                 if tribe not in o.playable_tribes.value:
                     continue
-                item_pool.append(world.create_item(f"{tribe} - Technology Unlock - {tech_name}")
+                item_pool.extend(world.create_item(f"{tribe} - Technology Unlock - {tech_name}")
                                                     for tech_name in TECHNOLOGY_NAMES)
 
         # case 3:  # Split by Action
 
         # case 4:  # Split by Tribe and Action
+
+        case 0 | _:  # No Technology Items
+            pass
 
     # length of current itempool
     number_of_items = len(item_pool)
