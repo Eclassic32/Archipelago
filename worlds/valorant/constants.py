@@ -32,6 +32,7 @@ AGENTS = {
 }
 
 AGENT_LIST = [AGENTS[i] for i in sorted(AGENTS.keys())]
+AGENT_NAME_TO_ID = {v: k for k, v in AGENTS.items()}
 
 WEAPONS = {
     1 : "Melee",
@@ -55,12 +56,16 @@ WEAPONS = {
     19 : "Operator",
     20 : "Ares",
     21 : "Odin",
+}
 
+ABILITIES = {
     50 : "Grenade",
     51 : "Ability 1",
     52 : "Ability 2",
     53 : "Ultimate",
+}
 
+ROUND_RESULTS = {
     55 : "Ace",
     56 : "Clutch",
     57 : "Flawless",
@@ -78,7 +83,9 @@ WEAPONS = {
     68 : "8-Kill",
     69 : "9-Kill",
     70 : "10-Kill",
+}
 
+OTHER_DAMAGE_TYPES = {
     80 : "Fall Damage",
     81 : "Void",
     82 : "Spike",
@@ -87,6 +94,8 @@ WEAPONS = {
     91 : "Big Knife",
     92 : "Snowball Launcher",
 }
+
+ALL_WEAPONS_SLOTS = {**WEAPONS, **ABILITIES, **ROUND_RESULTS, **OTHER_DAMAGE_TYPES}
 
 LOCATION_TYPE = {
     1 : "Kill",
@@ -98,7 +107,7 @@ LOCATION_TYPE = {
     7 : "Match Result",
 }
 
-GAME_MODES = {
+NORMAL_GAME_MODES = {
     1 : "Unrated",
     2 : "Competitive",
     3 : "Swiftplay",
@@ -107,6 +116,8 @@ GAME_MODES = {
     6 : "Team Deathmathc",
     7 : "Escalation",
     8 : "Premier",
+}
+OTHER_GAME_MODES = {
     9 : "Bot Match",
     20 : "Gauntlet: Glitched",
     21 : "Skirmish",
@@ -121,8 +132,12 @@ GAME_MODES = {
     60 : "All Random One Site: Replication",
     90 : "Custom Game",
 }
+ALL_GAME_MODES = {**NORMAL_GAME_MODES, **OTHER_GAME_MODES}
+ALL_GAME_MODE_LIST = [ALL_GAME_MODES[i] for i in sorted(ALL_GAME_MODES.keys())]
+ROTATING_MAP_MODES = ["Competitive", "Premier", "Deathmatch"]
+COMPETITIVE_MODES = ["Competitive", "Premier"]
 
-MAPS = {
+NORMAL_MAPS = {
     1 : "Bind",
     2 : "Haven",
     3 : "Split",
@@ -136,7 +151,10 @@ MAPS = {
     11 : "Abyss",
     12 : "Corrode",
     13 : "Summit",
+}
+NORMAL_MAP_LIST = [NORMAL_MAPS[i] for i in sorted(NORMAL_MAPS.keys())]
 
+OTHER_MAPS = {
     50 : "District",
     51 : "Kasbah",
     52 : "Piazza",
@@ -152,21 +170,23 @@ MAPS = {
     70 : "Gauntlet",
     90 : "The Range",
 }
+ALL_MAPS = {**NORMAL_MAPS, **OTHER_MAPS}
+ALL_MAP_LIST = [ALL_MAPS[i] for i in sorted(ALL_MAPS.keys())]
+MAPS_CURRENTLY_IN_ROTATION = ["Abyss", "Bind", "Corrode", "Haven", "Lotus", "Sunset", "Summit"]
 
-MAPS_CURRENTLY_IN_ROTATION = [11, 1, 12, 2, 9, 10, 13]
 
-
-def a(agent: str, ability: str, type: str, slot: str, func: list, damaging = True):
-    return { "agent": agent, "ability": ability, "type": type, "slot": slot, "func": func, "damaging": damaging }
+def a(agent: str, ability: str, type: str, slot: str, func: list, damaging: bool, killing: bool = False):
+    return { "agent": agent, "ability": ability, "type": type, "slot": slot,
+              "func": func, "damaging": damaging, "killing": killing }
 
 
 ABILITIES = [
     a("Brimstone", "Stim Beacon", "Basic", "grenade", ["Empowerment"], False),
-    a("Brimstone", "Incendiary", "Basic", "ability1", ["Molotov"], True),
+    a("Brimstone", "Incendiary", "Basic", "ability1", ["Molotov"], True, True),
     a("Brimstone", "Sky Smoke", "Signature", "ability2", ["Smoke"], False),
-    a("Brimstone", "Orbital Strike", "Ultimate", "ultimate", ["Deterrent"], True),
+    a("Brimstone", "Orbital Strike", "Ultimate", "ultimate", ["Deterrent"], True, True),
 
-    a("Viper", "Snake Bite", "Basic", "grenade", ["Cripple", "Molotov"], True),
+    a("Viper", "Snake Bite", "Basic", "grenade", ["Cripple", "Molotov"], True, True),
     a("Viper", "Poison Cloud", "Basic", "ability1", ["Cripple", "Smoke"], True),
     a("Viper", "Toxic Screen", "Signature", "ability2", ["Cripple", "Wall"], True),
     a("Viper", "Viper's Pit", "Ultimate", "ultimate", ["Cripple", "Vision Blocker"], True),
@@ -177,28 +197,28 @@ ABILITIES = [
     a("Omen", "Dark Cover", "Signature", "ability2", ["Smoke"], False),
     a("Omen", "From the Shadows", "Ultimate", "ultimate", ["Teleport"], False),
 
-    a("Killjoy", "Nanoswarm", "Basic", "grenade", ["Molotov"], True),
+    a("Killjoy", "Nanoswarm", "Basic", "grenade", ["Molotov"], True, True),
     a("Killjoy", "ALARMBOT", "Basic", "ability1", ["Autonomous Deployable", "Cripple", "Intel"], False),
-    a("Killjoy", "TURRET", "Signature", "ability2", ["Autonomous Deployable", "Intel"], True),
+    a("Killjoy", "TURRET", "Signature", "ability2", ["Autonomous Deployable", "Intel"], True, True),
     a("Killjoy", "Lockdown", "Ultimate", "ultimate", ["Detain"], False),
 
-    a("Cypher", "Trapwire", "Basic", "grenade", ["Autonomous Deployable", "Intel", "Slow"], False),
+    a("Cypher", "Trapwire", "Basic", "grenade", ["Autonomous Deployable", "Intel", "Slow"], False, True),
     a("Cypher", "Cyber Cage", "Basic", "ability1", ["Vision Blocker"], False),
     a("Cypher", "Spycam", "Signature", "ability2", ["Controlled Deployable", "Intel"], False),
     a("Cypher", "Neural Theft", "Ultimate", "ultimate", ["Intel"], False),
 
     a("Sova", "Owl Drone", "Basic", "grenade", ["Controlled Deployable", "Intel"], False),
-    a("Sova", "Shock Bolt", "Basic", "ability1", ["Deterrent"], True),
+    a("Sova", "Shock Bolt", "Basic", "ability1", ["Deterrent"], True, True),
     a("Sova", "Recon Bolt", "Signature", "ability2", ["Intel"], False),
-    a("Sova", "Hunter's Fury", "Ultimate", "ultimate", ["Weapon Equip"], True),
+    a("Sova", "Hunter's Fury", "Ultimate", "ultimate", ["Weapon Equip"], True, True),
 
     a("Sage", "Barrier Orb", "Basic", "grenade", ["Barrier", "Wall"], False),
     a("Sage", "Slow Orb", "Basic", "ability1", ["Slow"], False),
     a("Sage", "Healing Orb", "Signature", "ability2", ["Heal"], False),
     a("Sage", "Resurrection", "Ultimate", "ultimate", ["Revive"], False),
 
-    a("Phoenix", "Blaze", "Basic", "grenade", ["Wall"], True),
-    a("Phoenix", "Hot Hands", "Basic", "ability1", ["Molotov"], True),
+    a("Phoenix", "Blaze", "Basic", "grenade", ["Wall"], True, True),
+    a("Phoenix", "Hot Hands", "Basic", "ability1", ["Molotov"], True, True),
     a("Phoenix", "Curveball", "Signature", "ability2", ["Flash"], False),
     a("Phoenix", "Run it Back", "Ultimate", "ultimate", ["Revive"], False),
     a("Phoenix", "Inner Fire", "Passive", "passive", [], False),
@@ -206,26 +226,27 @@ ABILITIES = [
     a("Jett", "Cloudburst", "Basic", "grenade", ["Smoke"], False),
     a("Jett", "Updraft", "Basic", "ability1", ["Dash"], False),
     a("Jett", "Tailwind", "Signature", "ability2", ["Dash"], False),
-    a("Jett", "Blade Storm", "Ultimate", "ultimate", ["Weapon Equip"], True),
+    a("Jett", "Blade Storm", "Ultimate", "ultimate", ["Weapon Equip"], True, True),
     a("Jett", "Drift", "Passive", "passive", [], False),
+
     a("Reyna", "Leer", "Basic", "grenade", ["Nearsight"], False),
     a("Reyna", "Devour", "Signature", "ability1", ["Heal"], False),
     a("Reyna", "Dismiss", "Signature", "ability2", ["Intangibility"], False),
     a("Reyna", "Empress", "Ultimate", "ultimate", ["Empowerment"], False),
     a("Reyna", "Vitality", "Passive", "passive", [], False),
 
-    a("Raze", "Boom Bot", "Basic", "grenade", ["Autonomous Deployable", "Intel"], True),
-    a("Raze", "Blast Pack", "Basic", "ability1", ["Dash", "Displacement"], True),
-    a("Raze", "Paint Shells", "Signature", "ability2", ["Deterrent"], True),
-    a("Raze", "Showstopper", "Ultimate", "ultimate", ["Weapon Equip"], True),
+    a("Raze", "Boom Bot", "Basic", "grenade", ["Autonomous Deployable", "Intel"], True, True),
+    a("Raze", "Blast Pack", "Basic", "ability1", ["Dash", "Displacement"], True, True),
+    a("Raze", "Paint Shells", "Signature", "ability2", ["Deterrent"], True, True),
+    a("Raze", "Showstopper", "Ultimate", "ultimate", ["Weapon Equip"], True, True),
 
-    a("Breach", "Aftershock", "Basic", "grenade", ["Deterrent"], True),
+    a("Breach", "Aftershock", "Basic", "grenade", ["Deterrent"], True, True),
     a("Breach", "Flashpoint", "Basic", "ability1", ["Flash"], False),
     a("Breach", "Fault Line", "Signature", "ability2", ["Concuss"], False),
     a("Breach", "Rolling Thunder", "Ultimate", "ultimate", ["Concuss", "Displacement"], False),
 
     a("Skye", "Regrowth", "Basic", "grenade", ["Heal"], False),
-    a("Skye", "Trailblazer", "Basic", "ability1", ["Concuss", "Controlled Deployable", "Intel"], True),
+    a("Skye", "Trailblazer", "Basic", "ability1", ["Concuss", "Controlled Deployable", "Intel"], True, True),
     a("Skye", "Guiding Light", "Signature", "ability2", ["Controlled Deployable", "Flash", "Intel"], False),
     a("Skye", "Seekers", "Ultimate", "ultimate", ["Autonomous Deployable", "Nearsight", "Slow"], False),
 
@@ -241,20 +262,20 @@ ABILITIES = [
     a("Astra", "Cosmic Divide", "Ultimate", "ultimate", ["Wall"], False),
     a("Astra", "Astral Form", "Passive", "passive", [], False),
 
-    a("KAY/O", "FRAG/ment", "Basic", "grenade", ["Deterrent"], True),
+    a("KAY/O", "FRAG/ment", "Basic", "grenade", ["Deterrent"], True, True),
     a("KAY/O", "FLASH/drive", "Basic", "ability1", ["Flash"], False),
     a("KAY/O", "ZERO/point", "Signature", "ability2", ["Intel", "Limiter"], False),
     a("KAY/O", "NULL/cmd", "Ultimate", "ultimate", ["Empowerment", "Limiter", "Revive"], False),
 
     a("Chamber", "Trademark", "Basic", "grenade", ["Autonomous Deployable", "Intel", "Slow"], False),
-    a("Chamber", "Headhunter", "Basic", "ability1", ["Weapon Equip"], True),
+    a("Chamber", "Headhunter", "Basic", "ability1", ["Weapon Equip"], True, True),
     a("Chamber", "Rendezvous", "Signature", "ability2", ["Teleport"], False),
-    a("Chamber", "Tour De Force", "Ultimate", "ultimate", ["Slow", "Weapon Equip"], True),
+    a("Chamber", "Tour De Force", "Ultimate", "ultimate", ["Slow", "Weapon Equip"], True, True),
 
     a("Neon", "Fast Lane", "Basic", "grenade", ["Wall"], False),
     a("Neon", "Relay Bolt", "Basic", "ability1", ["Concuss"], False),
     a("Neon", "High Gear", "Signature", "ability2", ["Dash"], False),
-    a("Neon", "Overdrive", "Ultimate", "ultimate", ["Weapon Equip"], True),
+    a("Neon", "Overdrive", "Ultimate", "ultimate", ["Weapon Equip"], True, True),
     a("Neon", "Battery", "Passive", "passive", [], False),
 
     a("Fade", "Prowler", "Basic", "grenade", ["Autonomous Deployable", "Intel", "Nearsight"], False),
@@ -268,7 +289,7 @@ ABILITIES = [
     a("Harbor", "Cove", "Signature", "ability2", ["Smoke"], False),
     a("Harbor", "Reckoning", "Ultimate", "ultimate", ["Nearsight", "Slow", "Wall", "Intel"], False),
 
-    a("Gekko", "Mosh Pit", "Basic", "grenade", ["Deterrent"], True),
+    a("Gekko", "Mosh Pit", "Basic", "grenade", ["Deterrent"], True, True),
     a("Gekko", "Wingman", "Basic", "ability1", ["Autonomous Deployable", "Concuss", "Intel"], False),
     a("Gekko", "Dizzy", "Signature", "ability2", ["Autonomous Deployable", "Blind", "Intel"], False),
     a("Gekko", "Thrash", "Ultimate", "ultimate", ["Controlled Deployable", "Detain"], False),
@@ -277,7 +298,7 @@ ABILITIES = [
     a("Deadlock", "Barrier Mesh", "Basic", "grenade", ["Barrier"], False),
     a("Deadlock", "Sonic Sensor", "Basic", "ability1", ["Autonomous Deployable", "Concuss", "Intel"], False),
     a("Deadlock", "GravNet", "Signature", "ability2", ["Slow"], False),
-    a("Deadlock", "Annihilation", "Ultimate", "ultimate", ["Detain", "Displacement"], True),
+    a("Deadlock", "Annihilation", "Ultimate", "ultimate", ["Detain", "Displacement"], True, True),
 
     a("Iso", "Contingency", "Basic", "grenade", ["Wall"], False),
     a("Iso", "Undercut", "Basic", "ability1", ["Cripple", "Limiter"], False),
@@ -290,15 +311,15 @@ ABILITIES = [
     a("Clove", "Ruse", "Signature", "ability2", ["Smoke"], False),
     a("Clove", "Not Dead Yet", "Ultimate", "ultimate", ["Intangibility", "Revive"], False),
 
-    a("Vyse", "Razorvine", "Basic", "grenade", ["Slow"], True),
+    a("Vyse", "Razorvine", "Basic", "grenade", ["Slow"], True, True),
     a("Vyse", "Shear", "Basic", "ability1", ["Autonomous Deployable", "Barrier", "Intel", "Wall"], False),
     a("Vyse", "Arc Rose", "Signature", "ability2", ["Flash"], False),
     a("Vyse", "Steel Garden", "Ultimate", "ultimate", ["Limiter"], False),
 
     a("Tejo", "Stealth Drone", "Basic", "grenade", ["Controlled Deployable", "Limiter", "Intel"], False),
-    a("Tejo", "Special Delivery", "Basic", "ability1", ["Concuss"], True),
-    a("Tejo", "Guided Salvo", "Signature", "ability2", ["Deterrent"], True),
-    a("Tejo", "Armageddon", "Ultimate", "ultimate", ["Deterrent"], True),
+    a("Tejo", "Special Delivery", "Basic", "ability1", ["Concuss"], True, True),
+    a("Tejo", "Guided Salvo", "Signature", "ability2", ["Deterrent"], True, True),
+    a("Tejo", "Armageddon", "Ultimate", "ultimate", ["Deterrent"], True, True),
 
     a("Waylay", "Saturate", "Basic", "grenade", ["Hinder"], False),
     a("Waylay", "Lightspeed", "Basic", "ability1", ["Dash"], False),
@@ -322,3 +343,5 @@ ABILITIES = [
     a("Hush", "Telekinesis", "Passive", "passive", [], False),
 ]
 
+ALLOW_MAX_SANITY = False
+ALLOW_RATING_GAME_MODES = False

@@ -1,7 +1,13 @@
 from dataclasses import dataclass
 
-from Options import Choice, NamedRange, OptionGroup, OptionSet, PerGameCommonOptions, Range
-from worlds.valorant.constants import AGENT_LIST
+from Options import Choice, NamedRange, OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle
+from worlds.valorant.constants import (
+    AGENT_LIST,
+    ALL_GAME_MODE_LIST,
+    ALL_MAP_LIST,
+    MAPS_CURRENTLY_IN_ROTATION,
+    NORMAL_MAP_LIST,
+)
 
 
 class PlayableAgents(OptionSet):
@@ -24,7 +30,7 @@ class FirstUnlockedAgent(Choice):
 
     Possible values:
     "Breach", "Brimstone", "Chamber", "Cypher", "Fade", "Harbor",
-    "Jett",   "KAYO",     "Killjoy", "Neon",   "Omen", "Phoenix",
+    "Jett",   "KAYO",      "Killjoy", "Neon",   "Omen", "Phoenix",
     "Raze",   "Reyna",     "Sage",    "Skye",   "Sova", "Viper",
     "Yoru",   "Deadlock",  "Gekko",   "KAY/O",  "Neon",
     "Iso",    "Clove",     "Hush",
@@ -170,9 +176,9 @@ class WeaponSanity(Choice):
     option_once_per_playable_agent = 2
     default = option_off
 
-class IncludeDamagingAbilities(Choice):
+class IncludeDamagingAbilities(Toggle):
     """Whether to include damaging abilities in the Weapons Sanity checks.
-    Note: This option only applies if Weapon Sanity checks are enabled.
+    Note: This option only applies if Weapon Sanity checks are enabled (including Max Sanity).
 
     Possible values:
     "off" - only use buyable weapons for Weapon Sanity checks
@@ -184,7 +190,7 @@ class IncludeDamagingAbilities(Choice):
     option_on = 1
     default = option_on
 
-class EnableMaxSanityChecks(Choice):
+class EnableMaxSanityChecks(Toggle):
     """Whether to enable the maximum number of sanity checks.
     Note: Max Sanity will disable any other Sanity checks.
 
@@ -223,6 +229,7 @@ class IncludedMaxSanityChecks(OptionSet):
 
 class IncludedMaps(OptionSet):
     """List of maps that will be included in the max sanity checks.
+    No effect if "Maps" is not included in the "Included Max Sanity Checks" option.
 
     Possible values:
     ["Bind", "Haven", "Split", "Ascent", "Icebox", "Breeze",
@@ -234,31 +241,25 @@ class IncludedMaps(OptionSet):
     """
 
     display_name = "Included Maps"
-    valid_keys = ["Bind", "Haven", "Split", "Ascent", "Icebox", "Breeze",
-         "Fracture", "Pearl", "Lotus", "Sunset", "Abyss", "Corrode", "Summit",
-         "District", "Kasbah", "Piazza", "Drift", "Glitch",
-         "Skirmish A", "Skirmish B", "Skirmish C", "Skirmish D", "Skirmish E",
-         "Gauntlet", "The Range"]
-    default = ["Bind", "Haven", "Split", "Ascent", "Icebox", "Breeze",
-         "Fracture", "Pearl", "Lotus", "Sunset", "Abyss", "Corrode", "Summit",
-         "District", "Kasbah", "Piazza", "Drift", "Glitch",
-         "Skirmish A", "Skirmish B", "Skirmish C", "Skirmish D", "Skirmish E",
-         "Gauntlet", "The Range"]
+    valid_keys = ALL_MAP_LIST
+    default = NORMAL_MAP_LIST
 
 class IncludedGameModes(OptionSet):
     """List of game modes that will be included in the max sanity checks.
+    No effect if "Game Modes" is not included in the "Included Max Sanity Checks" option.
 
     Possible values:
     ["Unrated", "Competitive", "Spike Rush", "Deathmatch", "Escalation", "Replication"]
     """
 
     display_name = "Included Game Modes"
-    valid_keys = ["Unrated", "Competitive", "Spike Rush", "Deathmatch", "Escalation", "Replication"]
-    default = ["Unrated", "Competitive", "Spike Rush"]
+    valid_keys = ALL_GAME_MODE_LIST
+    default = ["Unrated", "Spike Rush"]
 
 class IncludedMapsOnRotation(OptionSet):
     """List of maps that is currently included in the map rotation.
     Used for game modes Competitive, Premier and Deathmatch
+    No effect if "Maps" is not included in the "Included Max Sanity Checks" option.
 
     Possible values:
     ["Bind", "Haven", "Split", "Ascent", "Icebox", "Breeze",
@@ -266,14 +267,14 @@ class IncludedMapsOnRotation(OptionSet):
     """
 
     display_name = "Included Maps on Rotation"
-    valid_keys = ["Bind", "Haven", "Split", "Ascent", "Icebox", "Breeze",
-        "Fracture", "Pearl", "Lotus", "Sunset", "Abyss", "Corrode", "Summit"]
-    default = ["Abyss", "Bind", "Corrode", "Haven", "Lotus", "Sunset", "Summit"]
+    valid_keys = NORMAL_MAP_LIST
+    default = MAPS_CURRENTLY_IN_ROTATION
 
 valorant_option_groups = [
     OptionGroup("Goal Options", [GoalType, GoalUniqueAgentsWins, GoalWins]),
     OptionGroup("Playable Agents", [PlayableAgents, FirstUnlockedAgent]),
-    OptionGroup("Regular Sanity Checks", [AssistSanity, EnemyAgentSanity, WeaponSanity]),
+    OptionGroup("Regular Sanity Checks", [AssistSanity, EnemyAgentSanity, WeaponSanity, IncludeDamagingAbilities,
+                                          PlantDefuseSanity]),
     OptionGroup("Max Sanity Checks", [EnableMaxSanityChecks, IncludedMaxSanityChecks, IncludedMaxSanityLocationTypes,
                                       IncludedMaps, IncludedGameModes, IncludedMapsOnRotation]),
 ]
@@ -281,3 +282,19 @@ valorant_option_groups = [
 @dataclass
 class ValorantOptions(PerGameCommonOptions):
     playable_agents: PlayableAgents
+    first_unlocked_agent: FirstUnlockedAgent
+    goal_type: GoalType
+    unique_agents_wins: GoalUniqueAgentsWins
+    goal_wins: GoalWins
+    assist_sanity: AssistSanity
+    enemy_agent_sanity: EnemyAgentSanity
+    weapon_sanity: WeaponSanity
+    include_damaging_abilities: IncludeDamagingAbilities
+    plant_defuse_sanity: PlantDefuseSanity
+    enable_max_sanity_checks: EnableMaxSanityChecks
+    included_max_sanity_checks: IncludedMaxSanityChecks
+    included_max_sanity_location_types: IncludedMaxSanityLocationTypes
+    included_maps: IncludedMaps
+    included_game_modes: IncludedGameModes
+    included_maps_on_rotation: IncludedMapsOnRotation
+

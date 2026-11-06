@@ -6,6 +6,14 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from . import items, locations, regions, rules
+from .constants import (
+    AGENT_LIST,
+    AGENT_NAME_TO_ID,
+    ALLOW_MAX_SANITY,
+    ALLOW_RATING_GAME_MODES,
+    COMPETITIVE_MODES,
+    ROTATING_MAP_MODES,
+)
 from .items import ITEM_NAME_TO_ID
 from .locations import LOCATION_ID_TO_NAME, LOCATION_NAME_TO_ID
 from .options import ValorantOptions, valorant_option_groups
@@ -58,15 +66,67 @@ class ValorantWorld(World):
     def generate_early(self) -> None:
         o = self.options
 
-        # Options Check here
+        playable_agent_ids = [AGENT_NAME_TO_ID[agent] for agent in AGENT_LIST if agent in o.playable_agents.value]
+
+        if not playable_agent_ids:
+            raise OptionError("[VALORANT] No playable agents selected.")
+
+        if o.first_unlocked_agent.value == -1:
+            o.first_unlocked_agent.value = playable_agent_ids[self.random.randint(0, len(playable_agent_ids) - 1)]
+
+        if o.first_unlocked_agent.value not in playable_agent_ids:
+            raise OptionError("[VALORANT] First unlocked agent is not in the list of playable agents.")
+
+        if o.goal_type.value == 1:
+            if o.unique_agents_wins.value > len(playable_agent_ids):
+                raise OptionError("[VALORANT] Not enough playable agents for the unique agents goal type.")
+
+        if o.enable_max_sanity_checks.value == 1:
+            if not ALLOW_MAX_SANITY:
+                raise OptionError("[VALORANT] Max sanity checks are not allowed in the host.yaml file.")
+
+            o.assist_sanity.value = 0
+            o.plant_defuse_sanity.value = 0
+            o.enemy_agent_sanity.value = 0
+            o.weapon_sanity.value = 0
+
+            if o.included_max_sanity_checks.value.__len__() < 1:
+                raise OptionError("[VALORANT] At least one max sanity check must be included.")
+
+            if o.included_max_sanity_location_types.value.__len__() < 1:
+                raise OptionError("[VALORANT] At least one max sanity location type must be included.")
+
+            if "Game Modes" in o.included_max_sanity_checks.value:
+                if o.included_game_modes.value.__len__() < 1:
+                    raise OptionError("[VALORANT] At least one game mode must be included.")
+                includes_rating_game_modes = any(mode in o.included_game_modes.value for mode in COMPETITIVE_MODES)
+                if not ALLOW_RATING_GAME_MODES and includes_rating_game_modes:
+                    raise OptionError("[VALORANT] Rating game modes are not allowed in the host.yaml file.")
+
+            if "Maps" in o.included_max_sanity_checks.value:
+                if o.included_maps.value.__len__() < 1:
+                    raise OptionError("[VALORANT] At least one map must be included.")
+                includes_mods_with_rmaps = "Game Modes" in o.included_max_sanity_checks.value and \
+                            any(mode in o.included_game_modes.value for mode in ROTATING_MAP_MODES)
+                if includes_mods_with_rmaps and o.included_maps_on_rotation.value.__len__() < 1:
+                    raise OptionError("[VALORANT] At least one map must be included in the map rotation.")
 
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         return {
-            "playable_tribes": self.options.playable_tribes.value,
-            "unique_tribes_wins": self.options.unique_tribes_wins.value,
-            "score_to_victory": self.options.score_for_victory.value,
-            "send_score_checks_immediately": self.options.send_score_checks_immediately.value,
-            "technology_locations": self.options.technology_locations.value,
-            "technology_items": self.options.technology_items.value,
+            "playable_agents": self.options.playable_agents.value,
+            "goal_type": self.options.goal_type.value,
+            "unique_agents_wins": self.options.unique_agents_wins.value,
+            "goal_wins": self.options.goal_wins.value,
+            "assist_sanity": self.options.assist_sanity.value,
+            "enemy_agent_sanity": self.options.enemy_agent_sanity.value,
+            "weapon_sanity": self.options.weapon_sanity.value,
+            "include_damaging_abilities": self.options.include_damaging_abilities.value,
+            "plant_defuse_sanity": self.options.plant_defuse_sanity.value,
+            "enable_max_sanity_checks": self.options.enable_max_sanity_checks.value,
+            "included_max_sanity_checks": self.options.included_max_sanity_checks.value,
+            "included_max_sanity_location_types": self.options.included_max_sanity_location_types.value,
+            "included_maps": self.options.included_maps.value,
+            "included_game_modes": self.options.included_game_modes.value,
+            "included_maps_on_rotation": self.options.included_maps_on_rotation.value,
         }
