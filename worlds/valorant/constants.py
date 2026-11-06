@@ -1,3 +1,5 @@
+from collections.abc import Set
+
 AGENTS = {
     1 : "Brimstone",
     2 : "Viper",
@@ -33,6 +35,9 @@ AGENTS = {
 
 AGENT_LIST = [AGENTS[i] for i in sorted(AGENTS.keys())]
 AGENT_NAME_TO_ID = {v: k for k, v in AGENTS.items()}
+def get_agent_id_list(list: Set[str]) -> list[int]:
+    return [AGENT_NAME_TO_ID[agent] for agent in AGENT_LIST if agent in list]
+
 
 WEAPONS = {
     1 : "Melee",
@@ -342,6 +347,25 @@ ABILITIES = [
     a("Hush", "Suspension", "Ultimate", "ultimate", ["Detain", "Displacement", "Intel"], False),
     a("Hush", "Telekinesis", "Passive", "passive", [], False),
 ]
+
+LOCATION_TYPES = {
+    1 : "Kill",
+    2 : "Assist",
+    3 : "Plant",
+    4 : "Defuse",
+    5 : "Multi-Kill",
+    6 : "Round Result",
+    7 : "Match Result",
+}
+LOCATION_TYPE_LIST = [LOCATION_TYPES[i] for i in sorted(LOCATION_TYPES.keys())]
+
+def get_location_id(loc_type: int, agent: int, enemy: int, weapon: int, map: int, mode: int) -> int:
+    return  (loc_type * 1000000000) + \
+            (   agent * 100000000 ) + \
+            (   enemy * 1000000   ) + \
+            (  weapon * 10000     ) + \
+            (     map * 100       ) + \
+                 mode
 
 ALLOW_MAX_SANITY = False
 ALLOW_RATING_GAME_MODES = False

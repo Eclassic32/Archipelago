@@ -5,6 +5,7 @@ from worlds.valorant.constants import (
     AGENT_LIST,
     ALL_GAME_MODE_LIST,
     ALL_MAP_LIST,
+    LOCATION_TYPE_LIST,
     MAPS_CURRENTLY_IN_ROTATION,
     NORMAL_MAP_LIST,
 )
@@ -208,11 +209,11 @@ class IncludedMaxSanityLocationTypes(OptionSet):
     """List of location types that will be included in the max sanity checks.
 
     Possible values:
-    ["Kill", "Assist", "Plant", "Defuse", "Round Results"]
+    ["Kill", "Assist", "Plant", "Defuse", "Multi-kill", "Round Results", "Match Results"]
     """
 
     display_name = "Included Max Sanity Location Types"
-    valid_keys = ["Kill", "Assist", "Plant", "Defuse", "Round Results"]
+    valid_keys = LOCATION_TYPE_LIST
     default = ["Kill", "Assist", "Plant", "Defuse"]
 
 class IncludedMaxSanityChecks(OptionSet):

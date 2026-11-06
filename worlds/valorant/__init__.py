@@ -13,6 +13,7 @@ from .constants import (
     ALLOW_RATING_GAME_MODES,
     COMPETITIVE_MODES,
     ROTATING_MAP_MODES,
+    get_agent_id_list,
 )
 from .items import ITEM_NAME_TO_ID
 from .locations import LOCATION_ID_TO_NAME, LOCATION_NAME_TO_ID
@@ -66,7 +67,7 @@ class ValorantWorld(World):
     def generate_early(self) -> None:
         o = self.options
 
-        playable_agent_ids = [AGENT_NAME_TO_ID[agent] for agent in AGENT_LIST if agent in o.playable_agents.value]
+        playable_agent_ids = get_agent_id_list(o.playable_agents.value)
 
         if not playable_agent_ids:
             raise OptionError("[VALORANT] No playable agents selected.")
